@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import "./styles.css";
+import MyTextInput from "./MyTextInput";
+import MySelect from "./MySelect";
+import MyCheckbox from "./MyCheckbox";
 
 const SignupForm = () => {
   return (
@@ -23,17 +26,39 @@ const SignupForm = () => {
     >
       {(formik) => (
         <Form onSubmit={formik.handleSubmit}>
-          <label htmlFor="firstName">Last Name</label>
-          <Field name="firstName" type="text" />
-          <ErrorMessage name="firstName"></ErrorMessage>
+          <MyTextInput
+            label="First Name"
+            name="firstName"
+            type="text"
+            placeholder="Jane"
+          />
 
-          <label htmlFor="lastName">First Name</label>
-          <Field name="lastName" type="text" />
-          <ErrorMessage name="lastName"></ErrorMessage>
+          <MyTextInput
+            label="Last Name"
+            name="lastName"
+            type="text"
+            placeholder="Doe"
+          />
 
-          <label htmlFor="email">Email Address</label>
-          <Field name="email" type="email" />
-          <ErrorMessage name="email"></ErrorMessage>
+          <MyTextInput
+            label="Email Address"
+            name="email"
+            type="email"
+            placeholder="jane.doe@formik.com"
+          />
+
+          <MySelect label="Job Type" name="jobType">
+            <option value="">Select a job type</option>
+            <option value="designer">Designer</option>
+            <option value="development">Developer</option>
+            <option value="product">Product manager</option>
+            <option value="other">Other</option>
+          </MySelect>
+
+          <MyCheckbox name="acceptedTerms">
+            I accept the terms and conditions
+          </MyCheckbox>
+
           <button type="submit">Submit</button>
         </Form>
       )}
