@@ -4,48 +4,70 @@ import { useFormik, withFormik } from "formik";
 import * as Yup from "yup";
 import "./styles.css";
 
-const SignupForm = (props) => {
+const SettingsProfileDialog = (props) => {
   const { handleSubmit, getFieldProps, errors, touched } = props;
-
+  const { onSubmit } = props;
   const submitIntercept = () => {
     console.log("Submitting");
-    handleSubmit();
+    // handleSubmit();
   };
-
   return (
-    <form onSubmit={submitIntercept}>
-      <label htmlFor="firstName">Last Name</label>
-      <input
-        id="firstName"
-        name="firstName"
-        type="text"
-        {...getFieldProps("firstName")}
-      />
+    <ResponsiveDialogAnalogue onSubmit={handleSubmit}>
+      <form>
+        <label htmlFor="firstName">Last Name</label>
+        <input
+          id="firstName"
+          name="firstName"
+          type="text"
+          {...getFieldProps("firstName")}
+        />
 
-      {touched.firstName && errors.firstName ? (
-        <div>{errors.firstName}</div>
-      ) : null}
+        {touched.firstName && errors.firstName ? (
+          <div>{errors.firstName}</div>
+        ) : null}
 
-      <label htmlFor="lastName">First Name</label>
-      <input
-        id="lastName"
-        name="lastName"
-        type="text"
-        {...getFieldProps("lastName")}
-      />
-      {touched.lastName && errors.lastName ? (
-        <div>{errors.lastName}</div>
-      ) : null}
+        <label htmlFor="lastName">First Name</label>
+        <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          {...getFieldProps("lastName")}
+        />
+        {touched.lastName && errors.lastName ? (
+          <div>{errors.lastName}</div>
+        ) : null}
 
-      <label htmlFor="email">Email Address</label>
-      <input id="email" name="email" type="email" {...getFieldProps("email")} />
-      {touched.email && errors.email ? <div>{errors.email}</div> : null}
-      <button type="submit">Submit</button>
-    </form>
+        <label htmlFor="email">Email Address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          {...getFieldProps("email")}
+        />
+        {touched.email && errors.email ? <div>{errors.email}</div> : null}
+      </form>
+    </ResponsiveDialogAnalogue>
   );
 };
 
-const FormikedSignupForm = withFormik({
+const ResponsiveDialogAnalogue = (props) => {
+  const submit = async () => {
+    console.log("Submit button clicked");
+    await props.onSubmit();
+    console.log("Done submitting");
+  };
+
+  return (
+    <>
+      {props.children}
+      <button onClick={submit} type="submit">
+        Submit
+      </button>
+    </>
+  );
+};
+
+const SettingsProfileDialogFormik = withFormik({
   initialValues: {
     firstName: "harold",
     lastName: "hernandez",
@@ -65,10 +87,10 @@ const FormikedSignupForm = withFormik({
   handleSubmit: (values, formikBag) => {
     alert(JSON.stringify(values, null, 2));
   },
-})(SignupForm);
+})(SettingsProfileDialog);
 
 function App() {
-  return <FormikedSignupForm />;
+  return <SettingsProfileDialogFormik />;
 }
 
 const rootElement = document.getElementById("root");
